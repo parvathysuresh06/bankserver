@@ -1,3 +1,6 @@
+//import json web token
+const jwt=require('jsonwebtoken')
+
 users= {
   1000: { acno: 1000, uname: "aswathy", pswd: "zero", balance: 6000,transaction:[] },
   1001: { acno: 1001, uname: "vishnu", pswd: "one", balance: 6000,transaction:[] },
@@ -46,12 +49,19 @@ const login=(acno, password)=> {
     if (password == database[acno]["pswd"]) {
       currentAcno=acno
       currentUserName=database[acno]["uname"]
+      //token generation
+
+      const token=jwt.sign({
+        currentAcc:acno
+      },'supersecretkey123')
+
        return {
         statusCode:200,
         status:true,
         message:"sucessfully logged",
         currentAcno,
-        currentUserName
+        currentUserName,
+        token
     }
     }
     else {
