@@ -127,10 +127,18 @@ const deposit=(acno, password, amt)=> {
   }
 
 //withdraw
-const withdraw=(acno, password, amt)=> {
+const withdraw=(req,acno, password, amt)=> {
   var amount = parseInt(amt);
   let db = users;
   if (acno in db) {
+    if(req.currentAcc!=acno){
+      return{
+        statusCode:401,
+        status:false,
+        message:"Account no does not exit"
+  
+      } }
+    
     if (password == db[acno]["pswd"]) {
       var bal = db[acno]["balance"]
       if (bal >=amount) {
